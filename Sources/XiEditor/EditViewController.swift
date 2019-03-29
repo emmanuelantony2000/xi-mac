@@ -87,8 +87,8 @@ class EditViewController: NSViewController, EditViewDataSource, FindDelegate, Sc
     @IBOutlet weak var editViewWidth: NSLayoutConstraint!
 
     lazy var findViewController: FindViewController! = {
-        let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
-        let controller = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "Find View Controller")) as! FindViewController
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateController(withIdentifier: "Find View Controller") as! FindViewController
         controller.findDelegate = self
         self.view.addSubview(controller.view)
         controller.view.translatesAutoresizingMaskIntoConstraints = false
@@ -699,7 +699,7 @@ class EditViewController: NSViewController, EditViewDataSource, FindDelegate, Sc
         NSDocumentController.shared.newDocument(sender)
     }
 
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         // disable the New Tab menu item when running in 10.12
         if menuItem.tag == 10 {
             if #available(OSX 10.12, *) { return true }
@@ -861,8 +861,8 @@ class EditViewController: NSViewController, EditViewDataSource, FindDelegate, Sc
             } else {
                 Swift.print("failed to resolve command params")
             }
-            if self?.userInputController.presenting != nil {
-                self?.dismissViewController(self!.userInputController)
+            if self?.userInputController.presentingViewController != nil {
+                self?.dismiss(self!.userInputController)
             }
         })
     }
@@ -872,12 +872,12 @@ class EditViewController: NSViewController, EditViewDataSource, FindDelegate, Sc
             completion(command.params)
             return
         }
-        self.presentViewControllerAsSheet(userInputController)
+        self.presentAsSheet(userInputController)
         userInputController.collectInput(forCommand: command, completion: completion)
     }
 
     lazy var userInputController: UserInputPromptController = {
-        return self.storyboard!.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "InputPromptController"))
+        return self.storyboard!.instantiateController(withIdentifier: "InputPromptController")
             as! UserInputPromptController
     }()
 

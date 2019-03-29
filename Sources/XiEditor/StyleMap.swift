@@ -23,21 +23,21 @@ struct Style {
     var underline: Bool
     var italic: Bool
     var weight: Int?
-    var attributes: [NSAttributedStringKey: Any] = [:]
+    var attributes: [NSAttributedString.Key: Any] = [:]
     var fakeItalic = false
     static let N_RESERVED_STYLES = 8        // todo: can be removed in the future for new update protocol
 
     init(font fromFont: NSFont, fgColor: NSColor?, bgColor: NSColor?, underline: Bool, italic: Bool, weight: Int?) {
         if let fgColor = fgColor {
-            attributes[NSAttributedStringKey.foregroundColor] = fgColor
+            attributes[NSAttributedString.Key.foregroundColor] = fgColor
         }
 
         if let bgColor = bgColor, bgColor.alphaComponent != 0.0 {
-            attributes[NSAttributedStringKey.backgroundColor] = bgColor
+            attributes[NSAttributedString.Key.backgroundColor] = bgColor
         }
 
         if underline {
-            attributes[NSAttributedStringKey.underlineStyle] = NSUnderlineStyle.styleSingle.rawValue
+            attributes[NSAttributedString.Key.underlineStyle] = NSUnderlineStyle.single.rawValue
         }
 
         let fm = NSFontManager.shared
@@ -49,7 +49,7 @@ struct Style {
             if let f = closestMatch(of: fromFont, traits: traits, weight: weight ?? fm.weight(of: fromFont)) {
                 font = f
             } else {
-                attributes[NSAttributedStringKey.obliqueness] = 0.2
+                attributes[NSAttributedString.Key.obliqueness] = 0.2
                 fakeItalic = true
             }
         }
@@ -59,7 +59,7 @@ struct Style {
         }
 
         if let font = font {
-            attributes[NSAttributedStringKey.font] = font
+            attributes[NSAttributedString.Key.font] = font
         }
 
         self.font = font

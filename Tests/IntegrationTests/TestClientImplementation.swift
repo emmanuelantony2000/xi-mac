@@ -81,7 +81,7 @@ class TestClientImplementation: XiClient {
     }
 
     func findStatus(viewIdentifier: String, status: [[String : AnyObject]]) {
-        findStatusAction(status.flatMap(FindStatus.init))
+        findStatusAction(status.compactMap(FindStatus.init))
     }
 
     func replaceStatus(viewIdentifier: String, status: [String : AnyObject]) {

@@ -79,8 +79,8 @@ class FindViewController: NSViewController, NSSearchFieldDelegate, NSControlText
 
     @objc @discardableResult public func addSearchField(searchField: SuplementaryFindViewController?, becomeFirstResponder: Bool) -> FindSearchField? {
         if searchQueries.count < FindViewController.MAX_SEARCH_QUERIES {
-            let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
-            let newSearchFieldController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "Suplementary Find View Controller")) as! SuplementaryFindViewController
+            let storyboard = NSStoryboard(name: "Main", bundle: nil)
+            let newSearchFieldController = storyboard.instantiateController(withIdentifier: "Suplementary Find View Controller") as! SuplementaryFindViewController
 
             newSearchFieldController.parentFindView = self
 
@@ -132,7 +132,7 @@ class FindViewController: NSViewController, NSSearchFieldDelegate, NSControlText
         }
     }
 
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         if obj.object as? NSTextField == replaceField {
             findDelegate.replace(replaceField.stringValue)
         }
@@ -227,7 +227,7 @@ class SuplementaryFindViewController: NSViewController, NSSearchFieldDelegate, N
     }
 
     // we use this to make sure that UI corresponds to our state
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         switch menuItem.tag {
         case caseSensitiveMenuTag:
             menuItem.state = caseSensitive ? .on : .off
@@ -381,7 +381,7 @@ extension EditViewController {
 
     func findStatus(status: [[String: AnyObject]]) {
         var findMarker: [Marker] = []
-        let statusStructs = status.flatMap(FindStatus.init)
+        let statusStructs = status.compactMap(FindStatus.init)
         for statusQuery in statusStructs {
             guard let firstStatus = statusStructs.first else { continue }
 

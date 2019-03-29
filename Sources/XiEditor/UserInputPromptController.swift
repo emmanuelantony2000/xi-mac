@@ -99,7 +99,7 @@ class UserInputPromptController: NSViewController, NSTextFieldDelegate, NSComboB
         promptForNextArgument()
     }
 
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         var valid = false
         switch currentArg!.type {
         case .number:
